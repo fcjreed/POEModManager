@@ -15,7 +15,7 @@
 					<td>
 						<form>
   							<div class="custom-control custom-checkbox">
-    							<input type="checkbox" [checked]="mod.activate" class="custom-control-input" id="activate">
+    							<input type="checkbox" [checked]="mod.activated" (change)="mod.activated = !mod.activated" class="custom-control-input" id="activate">
     							<label class="custom-control-label" for="activate"></label>
   							</div>
 						</form>
@@ -32,25 +32,28 @@
 		<button type="button" id="launchPoE" class="btn mx-auto btn-info btn-block" (click)="launchPoE()">Launch Path of Exile</button>
 	</div>
 	<div class="modal" id="preLaunch">
-  		<div class="modal-dialog">
-    		<div class="modal-content">
+		<div class="modal-dialog">
+	  		<div class="modal-content">
 		    	<div class="modal-header">
-        			<h4 class="modal-title">Pre-Launch Details</h4>
+	      			<h4 class="modal-title">Pre-Launch Details</h4>
 			    </div>
 	  		    <div class="modal-body">
 	        		<div class="form-group">
-    					<label for="poePath">Path to executable</label>
-    					<input type="file" requried [(ngModel)]="poePath"class="form-control" id="poePath" #installed="ngModel">
-  					</div>
-  					<div class="form-group">
-    					<label for="poeAHK">Path to AHK</label>
-    					<input type="file" required [(ngModel)]="ahkPath"class="form-control" id="ahkPath">
-  					</div>
-  					<div class="modal-footer">
-  						<button type="submit" id="login" class="btn mx-auto w-50 btn-info btn-block" [disabled]="installed.invalid" (click)="launchPoE()">Launch</button>
-  					</div>
+	  					<label for="poePath">Path to executable</label>
+	  					<input type="text" requried [(ngModel)]="this.poePath"class="form-control" id="poePath" #installed="ngModel">
+						</div>
+						<div class="form-group">
+	  					<label for="poeAHK">Path to AHK</label>
+	  					<input type="text" required [(ngModel)]="this.ahkPath"class="form-control" id="ahkPath">
+						</div>
+						<div class="modal-footer">
+							<button type="submit" id="launch" class="btn mx-auto w-50 btn-info btn-block" [disabled]="installed.invalid" (click)="launchPoE()">Launch</button>
+						</div>
 	      		</div>
-    		</div>
-  		</div>
+	  		</div>
+		</div>
 	</div>
+	<button type="button" class="btn btn-primary" id="modalButton" [hidden]="true" data-toggle="modal" data-target="#preLaunch">
+  		Open modal
+	</button>
 </div>

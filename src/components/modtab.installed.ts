@@ -3,8 +3,6 @@ import { Observable } from 'rxjs/';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../services/data.service';
 
-declare var $: any;
-
 @Component({
   selector: 'installed-tab',
   templateUrl: './modtab.installed.html'
@@ -46,24 +44,34 @@ export class ModTabInstalledComponent {
 	launchPoE() {
 		let poePath = localStorage.getItem('poePath');
 		let ahkPath = localStorage.getItem('ahkPath');
-		if (!poePath) {
-			let modal = $('#preLaunch');
-			modal.modal({
-				'data-backdrop': 'static',
-				'keyboard' : false
-			});
+		let actualPoe = poePath || this.poePath;
+		let actualAhk = ahkPath || this.ahkPath;
+		if (!actualPoe || !actualAhk) {
+			let element = document.getElementById('modalButton') as HTMLElement;
+			element.click();
 		}
 		else {
+			localStorage.setItem('poePath', actualPoe);
+			localStorage.setItem('ahkPath', actualAhk);
 			let activatedMods = this.mods.filter(mod => {
-				return mod.activate;
+				return mod.activated;
 			});
 			let request = {
-				'poePath' : poePath,
-				'ahkPath' : ahkPath,
+				'poePath' : actualPoe,
+				'ahkPath' : actualAhk,
 				'activatedMods' : activatedMods
 			};
-			this.http.post("/runGame", request);
+			if (activatedMods.length > 0){
+				this.dataService.updateMods(activatedMods);
+			} 
+			this.http.post("/runGame", request).subscribe(data => {
+				this.handleLaunch(data);
+			});
 		}
+	}
+
+	handleLaunch(resp) {
+
 	}
 
 }

@@ -23,7 +23,6 @@ export class AppComponent {
 	}
 
 	validateResponse(response) {
-		console.log(response.status);
 		this.isShowingRouteLoadIndicator = false;
 		if (response.status != 0) {
 			this.router.navigate(["login"]);

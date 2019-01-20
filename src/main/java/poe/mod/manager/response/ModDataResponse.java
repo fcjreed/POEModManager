@@ -3,7 +3,7 @@ package poe.mod.manager.response;
 import java.util.HashSet;
 import java.util.Set;
 
-import poe.mod.manager.boot.model.Mod;
+import poe.mod.manager.model.Mod;
 
 public class ModDataResponse extends GenericResponse {
 

@@ -3,7 +3,7 @@ package poe.mod.manager.request;
 import java.util.ArrayList;
 import java.util.List;
 
-import poe.mod.manager.boot.model.Mod;
+import poe.mod.manager.model.Mod;
 
 public class POELauncherRequest {
 
@@ -11,8 +11,9 @@ public class POELauncherRequest {
 	public String ahkPath;
 	public List<Mod> activatedMods;
 	
+	public POELauncherRequest() {}
+	
 	public POELauncherRequest(String poePath, String ahkPath, List<Mod> activatedMods) {
-		super();
 		this.poePath = poePath;
 		this.ahkPath = ahkPath;
 		this.activatedMods = activatedMods;
