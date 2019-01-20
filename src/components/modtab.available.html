@@ -1,0 +1,16 @@
+<div *ngIf="dataAvailable | async" class="container-fluid">
+	<table  class="table table-dark">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Version</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let mod of mods">
+			<td>{{mod.name}}</td>
+			<td>{{mod.version}}</td>
+			<td><button type="button" id="installMod" class="btn mx-auto btn-info btn-block" (click)="installMod(mod)">Install</button></td>
+		</tr>
+	</tbody>
+</table>

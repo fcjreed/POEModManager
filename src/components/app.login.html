@@ -1,0 +1,23 @@
+<div class="container-fluid">
+	<div class="row">
+    <div class="col">
+      <h3 class="text-center mb-5">Please enter your Github private access token.</h3>
+      <div id="loginForm" class="form-group">
+        <input type="text" class="form-control form-control-sm" placeholder="Github Access Token" required minlength="38" [(ngModel)]="model.gtoken" id="gtoken" #login="ngModel">
+      </div>
+      <button type="button" id="login" class="btn mx-auto w-50 btn-info btn-block" [disabled]="login.invalid" (click)="onLogin()">Login</button>
+    </div>
+  </div>
+	<div [ngModel]="model" *ngIf="model.error" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <div class="alert alert-danger"></div>
+      <strong class="mr-auto">Error</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      Invalid token.
+    </div>
+	</div>
+</div>

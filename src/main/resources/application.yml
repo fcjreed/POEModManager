@@ -1,0 +1,12 @@
+spring:
+   application:
+      name:ModManager
+
+github:
+   mod:
+      repositories: 
+         - Openarl/PathOfBuilding/
+         - PoE-TradeMacro/POE-TradeMacro
+         - viktorgullmark/exilence
+         - yznpku/LabCompass
+         - Exslims/MercuryTrade

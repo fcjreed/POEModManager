@@ -1,0 +1,56 @@
+<div *ngIf="dataAvailable | async" class="container-fluid">
+	<div class="row">
+		<table class="table table-dark">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Version</th>
+					<th>Activate</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let mod of mods">
+					<td>{{mod.name}}</td>
+					<td>{{mod.version}}</td>
+					<td>
+						<form>
+  							<div class="custom-control custom-checkbox">
+    							<input type="checkbox" [checked]="mod.activate" class="custom-control-input" id="activate">
+    							<label class="custom-control-label" for="activate"></label>
+  							</div>
+						</form>
+					</td>
+					<td *ngIf="mod.newVersion"><button type="button" id="updateMod" class="btn mx-auto btn-info btn-block" (click)="updateMod(mod)">Install {{mod.newVersion}}</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div *ngIf="mods.length > 0" class="row">
+		<button type="button" id="checkUpdates" class="btn mx-auto w-50 btn-info btn-block" (click)="checkUpdates()">Check For Updates</button>
+	</div>
+	<div class="row mt-5">
+		<button type="button" id="launchPoE" class="btn mx-auto btn-info btn-block" (click)="launchPoE()">Launch Path of Exile</button>
+	</div>
+	<div class="modal" id="preLaunch">
+  		<div class="modal-dialog">
+    		<div class="modal-content">
+		    	<div class="modal-header">
+        			<h4 class="modal-title">Pre-Launch Details</h4>
+			    </div>
+	  		    <div class="modal-body">
+	        		<div class="form-group">
+    					<label for="poePath">Path to executable</label>
+    					<input type="file" requried [(ngModel)]="poePath"class="form-control" id="poePath" #installed="ngModel">
+  					</div>
+  					<div class="form-group">
+    					<label for="poeAHK">Path to AHK</label>
+    					<input type="file" required [(ngModel)]="ahkPath"class="form-control" id="ahkPath">
+  					</div>
+  					<div class="modal-footer">
+  						<button type="submit" id="login" class="btn mx-auto w-50 btn-info btn-block" [disabled]="installed.invalid" (click)="launchPoE()">Launch</button>
+  					</div>
+	      		</div>
+    		</div>
+  		</div>
+	</div>
+</div>
