@@ -2,6 +2,9 @@ spring:
    application:
       name:ModManager
 
+server:
+  port: 55544
+
 github:
    mod:
       repositories: 
