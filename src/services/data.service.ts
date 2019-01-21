@@ -51,16 +51,13 @@ export class DataService {
 	}
 
 	getModByInstalled(installed): Array<Mod> {
-		let test = this.mods.filter(mod => {
+		return this.mods.filter(mod => {
 			return mod.installed == installed;
 		});
-		return test;
 	}
 
 	private updateMod(mod) {
 		this.mods[this.mods.findIndex(({name}) => name === mod.name)] = mod;
-		console.log("UPDATED MODS");
-		console.log(this.mods);
 	}
 
 	updateMods(mods) {
