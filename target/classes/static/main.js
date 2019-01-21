@@ -379,7 +379,7 @@ var ModTabAvailableComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"dataAvailable | async\" class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<table class=\"table table-dark\">\r\n\t\t\t<thead>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th>Name</th>\r\n\t\t\t\t\t<th>Version</th>\r\n\t\t\t\t\t<th>Activate</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</thead>\r\n\t\t\t<tbody>\r\n\t\t\t\t<tr *ngFor=\"let mod of mods\">\r\n\t\t\t\t\t<td>{{mod.name}}</td>\r\n\t\t\t\t\t<td>{{mod.version}}</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<form>\r\n  \t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\r\n    \t\t\t\t\t\t\t<input type=\"checkbox\" [checked]=\"mod.activated\" (change)=\"mod.activated = !mod.activated\" class=\"custom-control-input\" id=\"activate\">\r\n    \t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"activate\"></label>\r\n  \t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td *ngIf=\"mod.newVersion\"><button type=\"button\" id=\"updateMod\" class=\"btn mx-auto btn-info btn-block\" (click)=\"updateMod(mod)\">Install {{mod.newVersion}}</button></td>\r\n\t\t\t\t</tr>\r\n\t\t\t</tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<div *ngIf=\"mods.length > 0\" class=\"row\">\r\n\t\t<button type=\"button\" id=\"checkUpdates\" class=\"btn mx-auto w-50 btn-info btn-block\" (click)=\"checkUpdates()\">Check For Updates</button>\r\n\t</div>\r\n\t<div class=\"row mt-5\">\r\n\t\t<button type=\"button\" id=\"launchPoE\" class=\"btn mx-auto btn-info btn-block\" (click)=\"launchPoE()\">Launch Path of Exile</button>\r\n\t</div>\r\n\t<div class=\"modal\" id=\"preLaunch\">\r\n\t\t<div class=\"modal-dialog\">\r\n\t  \t\t<div class=\"modal-content\">\r\n\t\t    \t<div class=\"modal-header\">\r\n\t      \t\t\t<h4 class=\"modal-title\">Pre-Launch Details</h4>\r\n\t\t\t    </div>\r\n\t  \t\t    <div class=\"modal-body\">\r\n\t        \t\t<div class=\"form-group\">\r\n\t  \t\t\t\t\t<label for=\"poePath\">Path to executable</label>\r\n\t  \t\t\t\t\t<input type=\"text\" requried [(ngModel)]=\"this.poePath\"class=\"form-control\" id=\"poePath\" #installed=\"ngModel\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t  \t\t\t\t\t<label for=\"poeAHK\">Path to AHK</label>\r\n\t  \t\t\t\t\t<input type=\"text\" required [(ngModel)]=\"this.ahkPath\"class=\"form-control\" id=\"ahkPath\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t\t\t<button type=\"submit\" id=\"launch\" class=\"btn mx-auto w-50 btn-info btn-block\" [disabled]=\"installed.invalid\" (click)=\"launchPoE()\">Launch</button>\r\n\t\t\t\t\t\t</div>\r\n\t      \t\t</div>\r\n\t  \t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<button type=\"button\" class=\"btn btn-primary\" id=\"modalButton\" [hidden]=\"true\" data-toggle=\"modal\" data-target=\"#preLaunch\">\r\n  \t\tOpen modal\r\n\t</button>\r\n</div>"
+module.exports = "<div *ngIf=\"dataAvailable | async\" class=\"container-fluid\">\r\n\t<div class=\"row\">\r\n\t\t<table class=\"table table-dark\">\r\n\t\t\t<thead>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th>Name</th>\r\n\t\t\t\t\t<th>Version</th>\r\n\t\t\t\t\t<th>Activate</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</thead>\r\n\t\t\t<tbody>\r\n\t\t\t\t<tr *ngFor=\"let mod of mods\">\r\n\t\t\t\t\t<td>{{mod.name}}</td>\r\n\t\t\t\t\t<td>{{mod.version}}</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<form>\r\n  \t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\r\n    \t\t\t\t\t\t\t<input type=\"checkbox\" [checked]=\"mod.activated\" (change)=\"mod.activated = !mod.activated\" class=\"custom-control-input\" id=\"activate\">\r\n    \t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"activate\"></label>\r\n  \t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td *ngIf=\"mod.newVersion\"><button type=\"button\" id=\"updateMod\" class=\"btn mx-auto btn-info btn-block\" (click)=\"updateMod(mod)\">Install {{mod.newVersion}}</button></td>\r\n\t\t\t\t</tr>\r\n\t\t\t</tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<div *ngIf=\"mods.length > 0\" class=\"row\">\r\n\t\t<button type=\"button\" id=\"checkUpdates\" class=\"btn mx-auto w-50 btn-info btn-block\" (click)=\"checkUpdates()\">Check For Updates</button>\r\n\t</div>\r\n\t<div class=\"row mt-5\">\r\n\t\t<button type=\"button\" id=\"launchPoE\" class=\"btn mx-auto btn-info btn-block\" (click)=\"launchPoE()\">Launch Path of Exile</button>\r\n\t</div>\r\n\t<div class=\"modal\" id=\"preLaunch\">\r\n\t\t<div class=\"modal-dialog\">\r\n\t  \t\t<div class=\"modal-content\">\r\n\t\t    \t<div class=\"modal-header\">\r\n\t      \t\t\t<h4 class=\"modal-title\">Pre-Launch Details</h4>\r\n\t\t\t    </div>\r\n\t  \t\t    <div class=\"modal-body\">\r\n\t        \t\t<div class=\"form-group\">\r\n\t  \t\t\t\t\t<label for=\"poePath\">Path to PoE executable (include your version 32 or 64 file .exe)</label>\r\n\t  \t\t\t\t\t<input type=\"text\" requried [(ngModel)]=\"this.poePath\"class=\"form-control\" id=\"poePath\" #installed=\"ngModel\" placeholder=\"C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\Path of Exile\\\\PathOfExile_x64Steam.exe\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t  \t\t\t\t\t<label for=\"poeAHK\">Path to AHK executable (include AutoHotKey.exe)</label>\r\n\t  \t\t\t\t\t<input type=\"text\" required [(ngModel)]=\"this.ahkPath\"class=\"form-control\" id=\"ahkPath\" placeholder=\"C:\\\\Program Files\\\\AutoHotkey\\\\AutoHotkey.exe\">\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"modal-footer\">\r\n\t\t\t\t\t\t\t<button type=\"submit\" id=\"launch\" class=\"btn mx-auto w-50 btn-info btn-block\" [disabled]=\"installed.invalid\" (click)=\"launchPoE()\">Launch</button>\r\n\t\t\t\t\t\t</div>\r\n\t      \t\t</div>\r\n\t  \t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<button type=\"button\" class=\"btn btn-primary\" id=\"modalButton\" [hidden]=\"true\" data-toggle=\"modal\" data-target=\"#preLaunch\">\r\n  \t\tOpen modal\r\n\t</button>\r\n</div>"
 
 /***/ }),
 
@@ -474,30 +474,19 @@ var ModTabInstalledComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/environments/environment.ts":
-/*!*****************************************!*\
-  !*** ./src/environments/environment.ts ***!
-  \*****************************************/
+/***/ "./src/environments/environment.prod.ts":
+/*!**********************************************!*\
+  !*** ./src/environments/environment.prod.ts ***!
+  \**********************************************/
 /*! exports provided: environment */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
 var environment = {
-    production: false
+    production: true
 };
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 
 /***/ }),
@@ -514,12 +503,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _environments_environment_prod__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment.prod */ "./src/environments/environment.prod.ts");
 
 
 
 
-if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
+if (_environments_environment_prod__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
 }
 Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformBrowserDynamic"])().bootstrapModule(_app_app_module__WEBPACK_IMPORTED_MODULE_2__["AppModule"])
@@ -593,7 +582,6 @@ var DataService = /** @class */ (function () {
             var mod = mods_1[_i];
             this.addMod(mod);
         }
-        console.log("Calling mods changed");
         this.modsChanged();
     };
     DataService.prototype.getObservable = function () {

@@ -1,5 +1,12 @@
 # POE Mod Manager
 
+## How do I use this?
+
+Once you run the jar you downloaded in release, you can either go to `http://localhost:8080` in your browser 
+or you can right click the icon in the system tray and click `Goto Mod Manager`.
+
+If you want to close the program, just right click the icon in the system tray and click `Exit`.
+
 ## Development server
 
 You should be able to just run `mvn install` and it should pull in node, npm, and any npm modules. 

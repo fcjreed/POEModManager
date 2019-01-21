@@ -39,12 +39,12 @@
 			    </div>
 	  		    <div class="modal-body">
 	        		<div class="form-group">
-	  					<label for="poePath">Path to executable</label>
-	  					<input type="text" requried [(ngModel)]="this.poePath"class="form-control" id="poePath" #installed="ngModel">
+	  					<label for="poePath">Path to PoE executable (include your version 32 or 64 file .exe)</label>
+	  					<input type="text" requried [(ngModel)]="this.poePath"class="form-control" id="poePath" #installed="ngModel" placeholder="C:\\Program Files (x86)\\Steam\\steamapps\\common\\Path of Exile\\PathOfExile_x64Steam.exe">
 						</div>
 						<div class="form-group">
-	  					<label for="poeAHK">Path to AHK</label>
-	  					<input type="text" required [(ngModel)]="this.ahkPath"class="form-control" id="ahkPath">
+	  					<label for="poeAHK">Path to AHK executable (include AutoHotKey.exe)</label>
+	  					<input type="text" required [(ngModel)]="this.ahkPath"class="form-control" id="ahkPath" placeholder="C:\\Program Files\\AutoHotkey\\AutoHotkey.exe">
 						</div>
 						<div class="modal-footer">
 							<button type="submit" id="launch" class="btn mx-auto w-50 btn-info btn-block" [disabled]="installed.invalid" (click)="launchPoE()">Launch</button>

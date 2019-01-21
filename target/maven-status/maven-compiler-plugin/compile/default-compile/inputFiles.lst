@@ -1,11 +1,14 @@
+C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\util\ModManagerConstants.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\boot\ModManagerMain.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\request\POELauncherRequest.java
-C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\boot\enums\ExecuteType.java
-C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\boot\model\Mod.java
+C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\controller\ModInstallController.java
+C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\model\Mod.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\controller\GithubController.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\properties\GitHubRepos.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\config\ModManagerJavaConfig.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\response\ModDataResponse.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\response\GenericResponse.java
-C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\exception\ModManagerExceptions.java
+C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\enums\ExecuteType.java
+C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\controller\LauncherController.java
 C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\request\GithubAccessRequest.java
+C:\Users\chron\ModManager\poe-mod-manager\src\main\java\poe\mod\manager\exception\ModManagerExceptions.java

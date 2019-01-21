@@ -30,7 +30,6 @@ export class DataService {
 		for (let mod of mods) {
 			this.addMod(mod);
 		}
-		console.log("Calling mods changed");
 		this.modsChanged();
 	}
 
