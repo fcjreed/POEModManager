@@ -29,7 +29,7 @@ public class SystemTrayInit implements ApplicationListener<ApplicationReadyEvent
 	public void initTrayIcon() {
 		if (SystemTray.isSupported()) {
 			popup = new PopupMenu();
-			trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(System.getProperty("user.dir") + "\\src\\images\\icon.gif"));
+			trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("icon.gif")));
 			tray = SystemTray.getSystemTray();
 			launchApp = new MenuItem("Goto Mod Manager");
 			exit = new MenuItem("Exit");
