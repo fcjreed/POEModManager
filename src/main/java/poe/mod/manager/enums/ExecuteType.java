@@ -15,12 +15,11 @@ public enum ExecuteType {
 	}
 	
 	public static ExecuteType determineType(String file) {
-		ExecuteType val = null;
 		for (ExecuteType type : ExecuteType.values()) {
 			if (file.contains(type.getType()))
 				return type;
 		}
-		return val;
+		return null;
 	}
 	
 }
