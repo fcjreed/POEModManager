@@ -27,6 +27,12 @@
 	    <artifactId>github-api</artifactId>
 	    <version>1.95</version>
 	</dependency>
+	<dependency>
+	    <groupId>com.github.junrar</groupId>
+	    <artifactId>junrar</artifactId>
+	    <version>4.0.0</version>
+	</dependency>
+	
   </dependencies>
   <build>
     <plugins>
