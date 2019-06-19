@@ -74,4 +74,17 @@ export class ModTabInstalledComponent {
 
 	}
 
+	updateMod(mod) {
+		let modCopy = mod;
+		modCopy.version = mod.newVersion;
+		modCopy.newVersion = "";
+		this.http.post('/installMod', modCopy).subscribe(resp => this.handleInstallResponse(resp));
+	}
+
+	handleInstallResponse(resp) {
+		if (resp) {
+			this.dataService.updateMods([resp]);
+		}
+	}
+
 }

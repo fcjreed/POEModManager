@@ -1,6 +1,7 @@
 package poe.mod.manager.boot;
 
 import java.awt.Desktop;
+import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -29,7 +30,7 @@ public class SystemTrayInit implements ApplicationListener<ApplicationReadyEvent
 	public void initTrayIcon() {
 		if (SystemTray.isSupported()) {
 			popup = new PopupMenu();
-			trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("icon.gif")));
+			trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("icon.gif"));
 			tray = SystemTray.getSystemTray();
 			launchApp = new MenuItem("Goto Mod Manager");
 			exit = new MenuItem("Exit");

@@ -76,7 +76,7 @@ public class ModInstallController {
 			}
 		}
 		mod.setInstalled(true);
-		Files.write(modFolder.resolve(ModManagerConstants.MOD_FILE), mapper.writeValueAsBytes(mod), StandardOpenOption.CREATE_NEW);
+		Files.write(modFolder.resolve(ModManagerConstants.MOD_FILE), mapper.writeValueAsBytes(mod), StandardOpenOption.CREATE);
 		return mod;
 	}
 	
