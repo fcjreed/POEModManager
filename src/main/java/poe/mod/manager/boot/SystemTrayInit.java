@@ -9,7 +9,10 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URI;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -30,7 +33,11 @@ public class SystemTrayInit implements ApplicationListener<ApplicationReadyEvent
 	public void initTrayIcon() {
 		if (SystemTray.isSupported()) {
 			popup = new PopupMenu();
-			trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("icon.gif"));
+			try {
+				trayIcon = new TrayIcon(ImageIO.read(getClass().getResource("../../../../icon.gif")));
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
 			tray = SystemTray.getSystemTray();
 			launchApp = new MenuItem("Goto Mod Manager");
 			exit = new MenuItem("Exit");

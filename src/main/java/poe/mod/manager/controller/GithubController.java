@@ -1,14 +1,14 @@
 package poe.mod.manager.controller;
 
-import static poe.mod.manager.exception.ModManagerExceptions.MISSING_TOKEN;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.github.GHAsset;
@@ -16,7 +16,10 @@ import org.kohsuke.github.GHRelease;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,11 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import poe.mod.manager.exception.ModManagerExceptions;
 import poe.mod.manager.model.Mod;
 import poe.mod.manager.properties.GitHubRepos;
 import poe.mod.manager.request.GithubAccessRequest;
 import poe.mod.manager.response.GenericResponse;
 import poe.mod.manager.response.ModDataResponse;
+import poe.mod.manager.util.EncryptionUtils;
 import poe.mod.manager.util.ModManagerConstants;
 
 @RestController
@@ -41,35 +46,43 @@ public class GithubController {
 	@Autowired
 	private ObjectMapper mapper;
 	
+	@SuppressWarnings({ "unchecked" })
 	@PostMapping(value = "/verifyAccess")
-	public GenericResponse verifyAccess(@RequestBody GithubAccessRequest request) {
+	public ResponseEntity<GenericResponse> verifyAccess(RequestEntity<GithubAccessRequest> request, HttpServletResponse res) {
 		File tempLoc = new File(System.getProperty("java.io.tmpdir"));
 		String token = null;
 		GenericResponse response = new GenericResponse();
+		String encryptedToken = null;
 		try {
 			if (tempLoc.exists()) {
-				Path detailsPath = tempLoc.toPath().resolve(ModManagerConstants.MOD_DETAILS);
-				if (StringUtils.isNotBlank(request.getToken())) {
-					token = request.getToken();
-					Path modManagerDir = Files.createDirectory(tempLoc.toPath().resolve(ModManagerConstants.MOD_DETAIL_FOLDER));
-					Files.write(
-							Files.createFile(modManagerDir.resolve(ModManagerConstants.MOD_DETAIL_FILE)), 
-							request.getToken().getBytes("UTF-8"), StandardOpenOption.WRITE);
+				if (request.getHeaders().containsKey(ModManagerConstants.TOKEN_COOKIE)) {
+					token = request.getHeaders().get(ModManagerConstants.TOKEN_COOKIE).get(0);
 				}
-				else if (detailsPath.toFile().exists()) {
-					List<String> data = Files.readAllLines(detailsPath);
-					token = data.get(0);
+				if (StringUtils.isNotBlank(token)) {
+					token = EncryptionUtils.decrypt(token);
+				}
+				else {
+					encryptedToken = EncryptionUtils.encrypt(request.getBody().getToken());
 				}
 				if (StringUtils.isNotBlank(token))
 					github = GitHub.connectUsingOAuth(token);
+				if (github == null || !github.isCredentialValid()) {
+					return buildExceptionResponse(ModManagerExceptions.MISSING_TOKEN);
+				}
+				if (StringUtils.isNotBlank(encryptedToken)) {
+					Cookie cookie = new Cookie(ModManagerConstants.TOKEN_COOKIE, encryptedToken);
+					cookie.setMaxAge(ModManagerConstants.TOKEN_AGE);
+					res.addCookie(cookie);
+				}
 			}
-			if (github == null || !github.isCredentialValid()) {
-				response = new GenericResponse(MISSING_TOKEN.getStatusCode(), MISSING_TOKEN.getDescription());
+			else {
+				return buildExceptionResponse(ModManagerExceptions.MISSING_TEMP_FOLDER);
 			}
-		} catch (IOException e) {
+			
+		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
 		}
-		return response;
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping(value = "/populateModData", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -133,6 +146,11 @@ public class GithubController {
 			}
 		}
 		return installedMod;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private ResponseEntity buildExceptionResponse(ModManagerExceptions exception) {
+		return new ResponseEntity(new GenericResponse(exception.getStatusCode(), exception.getDescription()), HttpStatus.valueOf(exception.getStatusCode()));
 	}
 	
 }
