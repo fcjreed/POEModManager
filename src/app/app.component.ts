@@ -19,16 +19,16 @@ export class AppComponent {
 	}
 
 	ngOnInit() {
-		this.http.post("/verifyAccess", {}, httpOptions).subscribe( data => this.validateResponse(data));
+		this.http.post("/verifyAccess", {}, httpOptions).subscribe( data => this.handleSuccess(data), error => this.handleError());
 	}
 
-	validateResponse(response) {
+	handleSuccess(response) {
 		this.isShowingRouteLoadIndicator = false;
-		if (response.status != 0) {
-			this.router.navigate(["login"]);
-		}
-		else {
-			this.router.navigate(["modtab"]);
-		}
+		this.router.navigate(["modtab"]);
+	}
+
+	handleError() {
+		this.isShowingRouteLoadIndicator = false;
+		this.router.navigate(["login"]);
 	}
 }

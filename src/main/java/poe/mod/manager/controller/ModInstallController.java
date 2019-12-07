@@ -3,7 +3,6 @@ package poe.mod.manager.controller;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,8 +22,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.junrar.Junrar;
-import com.github.junrar.exception.RarException;
 
 import poe.mod.manager.enums.ExecuteType;
 import poe.mod.manager.model.Mod;
@@ -66,13 +63,6 @@ public class ModInstallController {
 		        }
 		        inStream.close();
 			}
-			else if (downloadUrl.contains(".rar")) {
-				try {
-					Junrar.extract(new ByteArrayInputStream(dlResponse.getBody()), modFolder.resolve(downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1)).toFile());
-				} catch (RarException e) {
-					e.printStackTrace();
-				}
-			}
 			else {
 				ExecuteType exeType = ExecuteType.determineType(downloadUrl);
 				Path installPath = modFolder.resolve(downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1));
@@ -80,14 +70,12 @@ public class ModInstallController {
         			mod.setExecuteType(exeType);
         			mod.setExecutablePath(installPath.toString());
         		}
-        		Files.deleteIfExists(installPath);
-    			Files.write(
-    					installPath, 
-						dlResponse.getBody(), StandardOpenOption.CREATE);
+				Files.write(
+						modFolder.resolve(downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1)), 
+						dlResponse.getBody(), StandardOpenOption.WRITE);
 			}
 		}
 		mod.setInstalled(true);
-		Files.deleteIfExists(modFolder.resolve(ModManagerConstants.MOD_FILE));
 		Files.write(modFolder.resolve(ModManagerConstants.MOD_FILE), mapper.writeValueAsBytes(mod), StandardOpenOption.CREATE);
 		return mod;
 	}

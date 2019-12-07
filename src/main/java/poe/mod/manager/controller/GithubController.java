@@ -4,10 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +22,6 @@ import org.kohsuke.github.GitHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +36,7 @@ import poe.mod.manager.properties.GitHubRepos;
 import poe.mod.manager.request.GithubAccessRequest;
 import poe.mod.manager.response.GenericResponse;
 import poe.mod.manager.response.ModDataResponse;
-import poe.mod.manager.util.EncryptionUtils;
+import poe.mod.manager.util.EncryptionService;
 import poe.mod.manager.util.ModManagerConstants;
 
 @RestController
@@ -45,34 +48,45 @@ public class GithubController {
 	private GitHubRepos repoProps;
 	@Autowired
 	private ObjectMapper mapper;
+	@Autowired
+	private EncryptionService encryptionService;
 	
 	@SuppressWarnings({ "unchecked" })
 	@PostMapping(value = "/verifyAccess")
-	public ResponseEntity<GenericResponse> verifyAccess(RequestEntity<GithubAccessRequest> request, HttpServletResponse res) {
+	public ResponseEntity<GenericResponse> verifyAccess(@RequestBody GithubAccessRequest request, 
+			HttpServletRequest req, HttpServletResponse res) {
 		File tempLoc = new File(System.getProperty("java.io.tmpdir"));
 		String token = null;
 		GenericResponse response = new GenericResponse();
 		String encryptedToken = null;
 		try {
 			if (tempLoc.exists()) {
-				if (request.getHeaders().containsKey(ModManagerConstants.TOKEN_COOKIE)) {
-					token = request.getHeaders().get(ModManagerConstants.TOKEN_COOKIE).get(0);
-				}
-				if (StringUtils.isNotBlank(token)) {
-					token = EncryptionUtils.decrypt(token);
-				}
-				else {
-					encryptedToken = EncryptionUtils.encrypt(request.getBody().getToken());
-				}
-				if (StringUtils.isNotBlank(token))
-					github = GitHub.connectUsingOAuth(token);
 				if (github == null || !github.isCredentialValid()) {
-					return buildExceptionResponse(ModManagerExceptions.MISSING_TOKEN);
-				}
-				if (StringUtils.isNotBlank(encryptedToken)) {
-					Cookie cookie = new Cookie(ModManagerConstants.TOKEN_COOKIE, encryptedToken);
-					cookie.setMaxAge(ModManagerConstants.TOKEN_AGE);
-					res.addCookie(cookie);
+					List<Cookie> cookies = new ArrayList();
+					if (req.getCookies() != null) {
+						cookies = Arrays.asList(req.getCookies());
+					}
+					Optional<Cookie> existingCookie = cookies.stream().filter(cookie -> ModManagerConstants.TOKEN_COOKIE.equals(cookie.getName())).findAny();
+					if (existingCookie.isPresent()) {
+						token = existingCookie.get().getValue();
+					}
+					if (StringUtils.isNotBlank(token)) {
+						token = encryptionService.decrypt(token);
+					}
+					else if (StringUtils.isNotBlank(request.getToken())){
+						token = request.getToken();
+						encryptedToken = encryptionService.encrypt(token);
+					}
+					if (StringUtils.isNotBlank(token))
+						github = GitHub.connectUsingOAuth(token);
+					if (github == null || !github.isCredentialValid()) {
+						return buildExceptionResponse(ModManagerExceptions.MISSING_TOKEN);
+					}
+					if (StringUtils.isNotBlank(encryptedToken)) {
+						Cookie cookie = new Cookie(ModManagerConstants.TOKEN_COOKIE, encryptedToken);
+						cookie.setMaxAge(ModManagerConstants.TOKEN_AGE);
+						res.addCookie(cookie);
+					}
 				}
 			}
 			else {
@@ -81,6 +95,7 @@ public class GithubController {
 			
 		} catch (IOException | GeneralSecurityException e) {
 			e.printStackTrace();
+			return buildExceptionResponse(ModManagerExceptions.INVALID_TOKEN);
 		}
 		return ResponseEntity.ok(response);
 	}

@@ -1,7 +1,8 @@
 package poe.mod.manager.exception;
 
 public enum ModManagerExceptions {
-	MISSING_TOKEN("Missing token.", 403),
+	MISSING_TOKEN("Missing token.", 400),
+	INVALID_TOKEN("Invalid token.", 403),
 	MISSING_TEMP_FOLDER("Missing temp folder. How?..", 500);
 
 	private int statusCode;
