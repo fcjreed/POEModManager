@@ -34,7 +34,7 @@
     "set-value": ">=2.0.1",
     "lodash": ">=4.17.12",
     "lodash.mergewith": ">=4.6.2",
-    "tar": ">=2.2.2"
+    "tar": ">=5.0.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.12.0",
